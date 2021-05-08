@@ -16,7 +16,7 @@ namespace Services.Paperworks.Models
         public string Name { get; set; }
         [StringLength(200)]
         public string Description { get; set; }
-        [Column("PaperWorkReception_id", TypeName = "int(11)")]
+        [Column(TypeName = "int(11)")]
         public int? PaperWorkReceptionId { get; set; }
         [Required]
         [StringLength(45)]
@@ -26,10 +26,11 @@ namespace Services.Paperworks.Models
         public string UpdatedBy { get; set; }
         [Column(TypeName = "bit(1)")]
         public short IsActive { get; set; }
-        [Column("PaperWork_Id", TypeName = "int(11)")]
+        [Column(TypeName = "int(11)")]
         public int PaperWorkId { get; set; }
         [Column(TypeName = "int(11)")]
         public int? PaperworkLink { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [ForeignKey(nameof(PaperWorkId))]
         [InverseProperty(nameof(Paperwork.Requirement))]

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cGDeuOOee2zNpffLafgms5IfcZBdt2KSabOLjmoIp8IF/WCBSnmNFjkGkMBYIgXgXLV0QFNdYwyIAfB83ghKLA==",
+  "dgSpecHash": "CXZ7gchZ0nVkw/OzxBZs1+h2cjndowcqPRZdiFBalpgs372sb1yEz3MPH03mqtK9HeYsBHAAVUTKjLJ/BoA5nA==",
   "success": true,
-  "projectFilePath": "D:\\1-2017\\2019\\proyecto final\\services\\Services.PaperworksUmss\\Services.Paperworks\\Services.Paperworks.csproj",
+  "projectFilePath": "D:\\1-2017\\2019\\proyecto final\\New folder\\Service.ProcedureGuide\\Services.Paperworks\\Services.Paperworks.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Andrea\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
     "C:\\Users\\Andrea\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",

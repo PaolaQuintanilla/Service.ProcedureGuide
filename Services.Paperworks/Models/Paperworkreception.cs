@@ -15,7 +15,7 @@ namespace Services.Paperworks.Models
         }
 
         [Key]
-        [Column("id", TypeName = "int(11)")]
+        [Column(TypeName = "int(11)")]
         public int Id { get; set; }
         [Required]
         [StringLength(45)]
@@ -30,9 +30,8 @@ namespace Services.Paperworks.Models
         public short IsActive { get; set; }
         [StringLength(45)]
         public string UpdatedBy { get; set; }
-        [Required]
-        [StringLength(45)]
-        public string CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
 
         [InverseProperty("PaperWorkReception")]
         public virtual ICollection<Requirement> Requirement { get; set; }

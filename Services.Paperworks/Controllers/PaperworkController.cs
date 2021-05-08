@@ -12,14 +12,14 @@ using MySql.Data.Types;
 
 namespace Services.Paperworks.Controllers
 {
-    //[EnableCors("CorsApi")]
+    [EnableCors("CorsApi")]
     [ApiController]
     [Route("[controller]")]
     public class PaperworkController : ControllerBase
     {
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<PaperworkController> _logger;
 
-        public PaperworkController(ILogger<WeatherForecastController> logger)
+        public PaperworkController(ILogger<PaperworkController> logger)
         {
             _logger = logger;
         }
@@ -83,12 +83,12 @@ namespace Services.Paperworks.Controllers
             Paperworkreception result = new Paperworkreception();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result.Id = 3;
                 result.Name = item.Name;
-                result.Coordinate = new MySqlGeometry(item.Latitude, item.Longitude);
+                result.Description = item.Description;
+                result.Coordinate = new MySqlGeometry(item.Longitude, item.Latitude);
                 result.CreatedBy = "1";
                 result.IsActive = 1;
-                result.CreatedAt = DateTime.Now.ToString();
+                result.CreatedAt = DateTime.Now;
                 db.Add(result);
                 db.SaveChanges();
             }

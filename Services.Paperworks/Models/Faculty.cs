@@ -29,6 +29,7 @@ namespace Services.Paperworks.Models
         public string UpdatedBy { get; set; }
         [Column(TypeName = "bit(1)")]
         public short IsActive { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [InverseProperty("Faculty")]
         public virtual ICollection<Paperwork> Paperwork { get; set; }

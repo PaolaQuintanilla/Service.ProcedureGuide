@@ -64,8 +64,6 @@ namespace Services.Paperworks.Models
 
             modelBuilder.Entity<Paperworkreception>(entity =>
             {
-                entity.Property(e => e.CreatedAt).IsUnicode(false);
-
                 entity.Property(e => e.CreatedBy).IsUnicode(false);
 
                 entity.Property(e => e.Description).IsUnicode(false);

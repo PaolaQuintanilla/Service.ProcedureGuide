@@ -19,7 +19,7 @@ namespace Services.Paperworks.Models
         [Required]
         [StringLength(45)]
         public string Name { get; set; }
-        [Column("Faculty_Id", TypeName = "int(11)")]
+        [Column(TypeName = "int(11)")]
         public int FacultyId { get; set; }
         [Column(TypeName = "bit(1)")]
         public short IsActive { get; set; }
@@ -29,6 +29,7 @@ namespace Services.Paperworks.Models
         [Required]
         [StringLength(45)]
         public string CreatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         [ForeignKey(nameof(FacultyId))]
         [InverseProperty("Paperwork")]

@@ -34,13 +34,13 @@ namespace Services.Paperworks
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Services.Paperworks", Version = "v1" });
             });
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("CorsApi",
-            //        builder => builder.WithOrigins("http://localhost:4200", "http://packager.xr-hza.anonymous.procedureguide-client.exp.direct:80")
-            //    .AllowAnyHeader()
-            //    .AllowAnyMethod());
-            //});
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsApi",
+                    builder => builder.WithOrigins("http://localhost:4200", "http://packager.xr-hza.anonymous.procedureguide-client.exp.direct:80")
+                .AllowAnyHeader()
+                .AllowAnyMethod());
+            });
             services.AddMvc()
             .AddNewtonsoftJson(
                 options =>
@@ -62,7 +62,7 @@ namespace Services.Paperworks
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            //app.UseCors("CorsApi");
+            app.UseCors("CorsApi");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
