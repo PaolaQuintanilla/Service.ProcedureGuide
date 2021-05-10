@@ -57,7 +57,6 @@ namespace Services.Paperworks.Controllers
                 result = db.Paperwork.Where(p => p.FacultyId == id).ToList();
 
             }
-
             return result;
         }
 
@@ -73,6 +72,45 @@ namespace Services.Paperworks.Controllers
                 {
                     item.PaperWorkReception = db.Paperworkreception.Where(p => p.Id == item.PaperWorkReceptionId).Single();
                 }
+            }
+            return result;
+        }
+
+        [HttpGet("GetRequirements")]
+        public IEnumerable<Requirement> GetRequirements()
+        {
+            var result = new List<Requirement>();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Requirement.ToList();
+            }
+            return result;
+        }
+
+        [HttpGet("GetPaperworkReceptions")]
+        public IEnumerable<Paperworkreception> GetPaperworkReceptions()
+        {
+            var result = new List<Paperworkreception>();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Paperworkreception.ToList();
+            }
+            return result;
+        }
+
+        [HttpPost("CreatePaperwork")]
+        public async Task<ActionResult<Paperwork>> CreatePaperwork(PaperworkCriteria item)
+        {
+            Paperwork result = new Paperwork();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result.Name = item.Name;
+                result.FacultyId = item.FacultyId;
+                result.CreatedBy = "1";
+                result.IsActive = 1;
+                result.CreatedAt = DateTime.Now;
+                db.Add(result);
+                db.SaveChanges();
             }
             return result;
         }
