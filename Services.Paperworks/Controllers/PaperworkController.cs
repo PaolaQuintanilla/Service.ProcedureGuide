@@ -98,6 +98,26 @@ namespace Services.Paperworks.Controllers
             return result;
         }
 
+        [HttpPost("CreateRequirement")]
+        public async Task<ActionResult<Requirement>> CreateRequirement(RequirementCriteria item)
+        {
+            Requirement result = new Requirement();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result.Name = item.Name;
+                result.Description = item.Description;
+                result.PaperWorkId = item.PaperWorkId;
+                result.PaperworkLink = item.PaperworkLink;
+                result.PaperWorkReceptionId = item.PaperWorkReceptionId;
+                result.CreatedBy = "1";
+                result.IsActive = 1;
+                result.CreatedAt = DateTime.Now;
+                db.Add(result);
+                db.SaveChanges();
+            }
+            return result;
+        }
+
         [HttpPost("CreatePaperwork")]
         public async Task<ActionResult<Paperwork>> CreatePaperwork(PaperworkCriteria item)
         {
