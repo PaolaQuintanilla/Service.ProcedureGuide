@@ -48,6 +48,36 @@ namespace Services.Paperworks.Controllers
             return result;
         }
 
+        [HttpGet("GetPaperwork/{id}")]
+        public Paperwork GetPaperwork(int id)
+        {
+            Paperwork result;
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Paperwork.Single(p => p.Id == id);
+            }
+            return result;
+        }
+
+        [HttpPost("ModifyPaperwork")]
+        public async Task<ActionResult<Paperwork>> ModifyPaperwork(ModifyPaperworkCriteria item)
+        {
+            Paperwork result = new Paperwork();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Paperwork.FirstOrDefault(p => p.Id == item.Id);
+                result.Name = item.Name;
+                result.FacultyId = item.FacultyId;
+                result.Description = item.Description;
+                result.UpdatedBy = "1";
+                result.UpdatedAt = DateTime.Now;
+                result.IsActive = Convert.ToInt16(item.IsActive);
+                db.SaveChanges();
+            }
+
+            return result;
+        }
+
         [HttpPost("CreatePaperwork")]
         public async Task<ActionResult<Paperwork>> CreatePaperwork(PaperworkCriteria item)
         {
@@ -56,6 +86,7 @@ namespace Services.Paperworks.Controllers
             {
                 result.Name = item.Name;
                 result.FacultyId = item.FacultyId;
+                result.Description = item.Description;
                 result.CreatedBy = "1";
                 result.IsActive = 1;
                 result.CreatedAt = DateTime.Now;

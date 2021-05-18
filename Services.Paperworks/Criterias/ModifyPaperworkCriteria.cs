@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace Services.Paperworks.Criterias
 {
-    public class PaperworkCriteria
+    public class ModifyPaperworkCriteria
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public int FacultyId { get; set; }
+        public int IsActive { get; set; }
         public string Description { get; set; }
     }
 }
