@@ -19,6 +19,8 @@ namespace Services.Paperworks.Models
         [Required]
         [StringLength(45)]
         public string Name { get; set; }
+        [StringLength(200)]
+        public string Description { get; set; }
         [Column(TypeName = "int(11)")]
         public int FacultyId { get; set; }
         [Column(TypeName = "bit(1)")]

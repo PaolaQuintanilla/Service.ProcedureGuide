@@ -51,6 +51,8 @@ namespace Services.Paperworks.Models
 
                 entity.Property(e => e.CreatedBy).IsUnicode(false);
 
+                entity.Property(e => e.Description).IsUnicode(false);
+
                 entity.Property(e => e.Name).IsUnicode(false);
 
                 entity.Property(e => e.UpdatedBy).IsUnicode(false);
