@@ -24,17 +24,49 @@ namespace Services.Paperworks.Controllers
             _logger = logger;
         }
 
+        #region Paperwork
         [HttpGet]
         public IEnumerable<Paperwork> GetPaperworks()
         {
             var result = new List<Paperwork>();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result = db.Paperwork.ToList();
+                result = db.Paperwork.Where(f => f.IsActive == 1).ToList();
             }
 
             return result;
         }
+
+        [HttpGet("GetPaperworkBy/{id}")]
+        public IEnumerable<Paperwork> GetPaperworkBy(int id)
+        {
+            var result = new List<Paperwork>();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Paperwork.Where(p => p.FacultyId == id && p.IsActive == 1).ToList();
+            }
+            return result;
+        }
+
+        [HttpPost("CreatePaperwork")]
+        public async Task<ActionResult<Paperwork>> CreatePaperwork(PaperworkCriteria item)
+        {
+            Paperwork result = new Paperwork();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result.Name = item.Name;
+                result.FacultyId = item.FacultyId;
+                result.CreatedBy = "1";
+                result.IsActive = 1;
+                result.CreatedAt = DateTime.Now;
+                db.Add(result);
+                db.SaveChanges();
+            }
+            return result;
+        }
+        #endregion
+
+        #region Faculty
 
         [HttpGet("GetFaculties")]
         public IEnumerable<Faculty> GetFaculties()
@@ -42,20 +74,39 @@ namespace Services.Paperworks.Controllers
             var result = new List<Faculty>();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result = db.Faculty.ToList();
+                result = db.Faculty.Where(f => f.IsActive == 1).ToList();
             }
 
             return result;
         }
 
-        [HttpGet("GetByFaculty/{id}")]
-        public IEnumerable<Paperwork> GetPaperworkBy(int id)
+        [HttpPost("CreateFaculty")]
+        public async Task<ActionResult<Faculty>> CreateFaculty(FacultyCriteria item)
         {
-            var result = new List<Paperwork>();
+            Faculty result = new Faculty();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result = db.Paperwork.Where(p => p.FacultyId == id).ToList();
+                result.Name = item.Name;
+                result.Description = item.Description;
+                result.CreatedBy = "1";
+                result.IsActive = 1;
+                result.CreatedAt = DateTime.Now;
+                db.Add(result);
+                db.SaveChanges();
+            }
+            return result;
+        }
+        #endregion
 
+        #region Requirement
+
+        [HttpGet("GetRequirements")]
+        public IEnumerable<Requirement> GetRequirements()
+        {
+            var result = new List<Requirement>();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Requirement.Where(f => f.IsActive == 1).ToList();
             }
             return result;
         }
@@ -67,33 +118,11 @@ namespace Services.Paperworks.Controllers
             using (dbtramiteContext db = new dbtramiteContext())
             {
                 result = db.Requirement.Where(r => r.PaperWorkId == id)
-                        .Include( re => re.PaperWorkReception).ToList();
+                        .Include(re => re.PaperWorkReception).ToList();
                 foreach (var item in result)
                 {
                     item.PaperWorkReception = db.Paperworkreception.Where(p => p.Id == item.PaperWorkReceptionId).Single();
                 }
-            }
-            return result;
-        }
-
-        [HttpGet("GetRequirements")]
-        public IEnumerable<Requirement> GetRequirements()
-        {
-            var result = new List<Requirement>();
-            using (dbtramiteContext db = new dbtramiteContext())
-            {
-                result = db.Requirement.ToList();
-            }
-            return result;
-        }
-
-        [HttpGet("GetPaperworkReceptions")]
-        public IEnumerable<Paperworkreception> GetPaperworkReceptions()
-        {
-            var result = new List<Paperworkreception>();
-            using (dbtramiteContext db = new dbtramiteContext())
-            {
-                result = db.Paperworkreception.ToList();
             }
             return result;
         }
@@ -117,20 +146,16 @@ namespace Services.Paperworks.Controllers
             }
             return result;
         }
+        #endregion
 
-        [HttpPost("CreatePaperwork")]
-        public async Task<ActionResult<Paperwork>> CreatePaperwork(PaperworkCriteria item)
+        #region Reception
+        [HttpGet("GetPaperworkReceptions")]
+        public IEnumerable<Paperworkreception> GetPaperworkReceptions()
         {
-            Paperwork result = new Paperwork();
+            var result = new List<Paperworkreception>();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result.Name = item.Name;
-                result.FacultyId = item.FacultyId;
-                result.CreatedBy = "1";
-                result.IsActive = 1;
-                result.CreatedAt = DateTime.Now;
-                db.Add(result);
-                db.SaveChanges();
+                result = db.Paperworkreception.Where(f => f.IsActive == 1).ToList();
             }
             return result;
         }
@@ -153,5 +178,7 @@ namespace Services.Paperworks.Controllers
 
             return result;
         }
+        #endregion
+
     }
 }
