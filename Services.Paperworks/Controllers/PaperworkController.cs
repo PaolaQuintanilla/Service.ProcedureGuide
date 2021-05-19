@@ -209,7 +209,34 @@ namespace Services.Paperworks.Controllers
 
             return result;
         }
-        #endregion
 
+        [HttpGet("GetReception/{id}")]
+        public Paperworkreception GetReception(int id)
+        {
+            Paperworkreception result;
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Paperworkreception.Single(p => p.Id == id);
+            }
+            return result;
+        }
+
+        [HttpPost("ModifyReception")]
+        public async Task<ActionResult<Paperworkreception>> ModifyReception(ModifyReceptionCriteria item)
+        {
+            Paperworkreception result = new Paperworkreception();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Paperworkreception.FirstOrDefault(p => p.Id == item.Id);
+                result.Name = item.Name;
+                result.Description = item.Description;
+                result.Coordinate = new MySqlGeometry(item.Longitude, item.Latitude);
+                result.UpdatedBy = "1";
+                result.IsActive = Convert.ToInt16(item.IsActive);
+                db.SaveChanges();
+            }
+            return result;
+        }
+        #endregion
     }
 }
