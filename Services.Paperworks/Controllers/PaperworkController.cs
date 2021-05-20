@@ -127,6 +127,34 @@ namespace Services.Paperworks.Controllers
             }
             return result;
         }
+
+        [HttpGet("GetFaculty/{id}")]
+        public Faculty GetFaculty(int id)
+        {
+            Faculty result;
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Faculty.Single(p => p.Id == id);
+            }
+            return result;
+        }
+
+        [HttpPost("ModifyFaculty")]
+        public async Task<ActionResult<Faculty>> ModifyFaculty(ModifyFacultyCriteria item)
+        {
+            Faculty result = new Faculty();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Faculty.FirstOrDefault(p => p.Id == item.Id);
+                result.Name = item.Name;
+                result.Description = item.Description;
+                result.UpdatedBy = "1";
+                result.UpdatedAt = DateTime.Now;
+                result.IsActive = Convert.ToInt16(item.IsActive);
+                db.SaveChanges();
+            }
+            return result;
+        }
         #endregion
 
         #region Requirement
