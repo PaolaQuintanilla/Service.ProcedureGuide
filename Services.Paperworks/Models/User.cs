@@ -20,6 +20,9 @@ namespace Services.Paperworks.Models
         [Required]
         [StringLength(100)]
         public string Password { get; set; }
+        [Required]
+        [StringLength(200)]
+        public string Email { get; set; }
 
         [ForeignKey(nameof(RolId))]
         [InverseProperty("User")]
