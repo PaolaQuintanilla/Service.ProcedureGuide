@@ -116,6 +116,8 @@ namespace Services.Paperworks.Models
                 entity.HasIndex(e => e.RolId)
                     .HasName("fk_User_Rol1_idx");
 
+                entity.Property(e => e.Email).IsUnicode(false);
+
                 entity.Property(e => e.Name).IsUnicode(false);
 
                 entity.Property(e => e.Password).IsUnicode(false);
