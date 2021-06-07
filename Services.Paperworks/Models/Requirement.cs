@@ -18,12 +18,11 @@ namespace Services.Paperworks.Models
         public string Description { get; set; }
         [Column(TypeName = "int(11)")]
         public int? PaperWorkReceptionId { get; set; }
-        [Required]
-        [StringLength(45)]
-        public string CreatedBy { get; set; }
+        [Column(TypeName = "int(11)")]
+        public int CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
-        [StringLength(45)]
-        public string UpdatedBy { get; set; }
+        [Column(TypeName = "int(11)")]
+        public int? UpdatedBy { get; set; }
         [Column(TypeName = "bit(1)")]
         public short IsActive { get; set; }
         [Column(TypeName = "int(11)")]

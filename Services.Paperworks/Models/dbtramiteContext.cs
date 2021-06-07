@@ -35,13 +35,9 @@ namespace Services.Paperworks.Models
         {
             modelBuilder.Entity<Faculty>(entity =>
             {
-                entity.Property(e => e.CreatedBy).IsUnicode(false);
-
                 entity.Property(e => e.Description).IsUnicode(false);
 
                 entity.Property(e => e.Name).IsUnicode(false);
-
-                entity.Property(e => e.UpdatedBy).IsUnicode(false);
             });
 
             modelBuilder.Entity<Paperwork>(entity =>
@@ -49,13 +45,9 @@ namespace Services.Paperworks.Models
                 entity.HasIndex(e => e.FacultyId)
                     .HasName("fk_PaperWork_Faculty1_idx");
 
-                entity.Property(e => e.CreatedBy).IsUnicode(false);
-
                 entity.Property(e => e.Description).IsUnicode(false);
 
                 entity.Property(e => e.Name).IsUnicode(false);
-
-                entity.Property(e => e.UpdatedBy).IsUnicode(false);
 
                 entity.HasOne(d => d.Faculty)
                     .WithMany(p => p.Paperwork)
@@ -66,13 +58,9 @@ namespace Services.Paperworks.Models
 
             modelBuilder.Entity<Paperworkreception>(entity =>
             {
-                entity.Property(e => e.CreatedBy).IsUnicode(false);
-
                 entity.Property(e => e.Description).IsUnicode(false);
 
                 entity.Property(e => e.Name).IsUnicode(false);
-
-                entity.Property(e => e.UpdatedBy).IsUnicode(false);
             });
 
             modelBuilder.Entity<Requirement>(entity =>
@@ -83,13 +71,9 @@ namespace Services.Paperworks.Models
                 entity.HasIndex(e => e.PaperWorkReceptionId)
                     .HasName("fk_Requirement_PaperWorkReception1_idx");
 
-                entity.Property(e => e.CreatedBy).IsUnicode(false);
-
                 entity.Property(e => e.Description).IsUnicode(false);
 
                 entity.Property(e => e.Name).IsUnicode(false);
-
-                entity.Property(e => e.UpdatedBy).IsUnicode(false);
 
                 entity.HasOne(d => d.PaperWork)
                     .WithMany(p => p.Requirement)
@@ -110,13 +94,12 @@ namespace Services.Paperworks.Models
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.RolId })
-                    .HasName("PRIMARY");
-
                 entity.HasIndex(e => e.RolId)
                     .HasName("fk_User_Rol1_idx");
 
                 entity.Property(e => e.Email).IsUnicode(false);
+
+                entity.Property(e => e.LastName).IsUnicode(false);
 
                 entity.Property(e => e.Name).IsUnicode(false);
 

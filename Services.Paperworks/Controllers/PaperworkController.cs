@@ -69,7 +69,7 @@ namespace Services.Paperworks.Controllers
                 result.Name = item.Name;
                 result.FacultyId = item.FacultyId;
                 result.Description = item.Description;
-                result.UpdatedBy = "1";
+                result.UpdatedBy = 1;
                 result.UpdatedAt = DateTime.Now;
                 result.IsActive = Convert.ToInt16(item.IsActive);
                 db.SaveChanges();
@@ -87,7 +87,7 @@ namespace Services.Paperworks.Controllers
                 result.Name = item.Name;
                 result.FacultyId = item.FacultyId;
                 result.Description = item.Description;
-                result.CreatedBy = "1";
+                result.CreatedBy = 1;
                 result.IsActive = 1;
                 result.CreatedAt = DateTime.Now;
                 db.Add(result);
@@ -119,7 +119,7 @@ namespace Services.Paperworks.Controllers
             {
                 result.Name = item.Name;
                 result.Description = item.Description;
-                result.CreatedBy = "1";
+                result.CreatedBy = 1;
                 result.IsActive = 1;
                 result.CreatedAt = DateTime.Now;
                 db.Add(result);
@@ -148,7 +148,7 @@ namespace Services.Paperworks.Controllers
                 result = db.Faculty.FirstOrDefault(p => p.Id == item.Id);
                 result.Name = item.Name;
                 result.Description = item.Description;
-                result.UpdatedBy = "1";
+                result.UpdatedBy = 1;
                 result.UpdatedAt = DateTime.Now;
                 result.IsActive = Convert.ToInt16(item.IsActive);
                 db.SaveChanges();
@@ -197,7 +197,7 @@ namespace Services.Paperworks.Controllers
                 result.PaperWorkId = item.PaperWorkId;
                 result.PaperworkLink = item.PaperworkLink;
                 result.PaperWorkReceptionId = item.PaperWorkReceptionId;
-                result.CreatedBy = "1";
+                result.CreatedBy = 1;
                 result.IsActive = 1;
                 result.CreatedAt = DateTime.Now;
                 db.Add(result);
@@ -228,7 +228,7 @@ namespace Services.Paperworks.Controllers
                 result.Name = item.Name;
                 result.Description = item.Description;
                 result.Coordinate = new MySqlGeometry(item.Longitude, item.Latitude);
-                result.CreatedBy = "1";
+                result.CreatedBy = 1;
                 result.IsActive = 1;
                 result.CreatedAt = DateTime.Now;
                 db.Add(result);
@@ -259,7 +259,7 @@ namespace Services.Paperworks.Controllers
                 result.Name = item.Name;
                 result.Description = item.Description;
                 result.Coordinate = new MySqlGeometry(item.Longitude, item.Latitude);
-                result.UpdatedBy = "1";
+                result.UpdatedBy = 1;
                 result.IsActive = Convert.ToInt16(item.IsActive);
                 db.SaveChanges();
             }
