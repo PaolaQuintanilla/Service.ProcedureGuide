@@ -23,13 +23,12 @@ namespace Services.Paperworks.Models
         [StringLength(200)]
         public string Description { get; set; }
         public MySqlGeometry Coordinate { get; set; }
-        [Required]
-        [StringLength(45)]
-        public string CreatedBy { get; set; }
+        [Column(TypeName = "int(11)")]
+        public int CreatedBy { get; set; }
         [Column(TypeName = "bit(1)")]
         public short IsActive { get; set; }
-        [StringLength(45)]
-        public string UpdatedBy { get; set; }
+        [Column(TypeName = "int(11)")]
+        public int? UpdatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdateAt { get; set; }
 

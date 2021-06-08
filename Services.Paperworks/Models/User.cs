@@ -12,9 +12,8 @@ namespace Services.Paperworks.Models
         [Column(TypeName = "int(11)")]
         public int Id { get; set; }
         [Required]
-        [StringLength(45)]
+        [StringLength(200)]
         public string Name { get; set; }
-        [Key]
         [Column("Rol_Id", TypeName = "int(11)")]
         public int RolId { get; set; }
         [Required]
@@ -23,6 +22,17 @@ namespace Services.Paperworks.Models
         [Required]
         [StringLength(200)]
         public string Email { get; set; }
+        [Required]
+        [StringLength(200)]
+        public string LastName { get; set; }
+        [Column(TypeName = "int(11)")]
+        public int CreatedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        [Column(TypeName = "bit(1)")]
+        public short IsActive { get; set; }
+        [Column(TypeName = "int(11)")]
+        public int? UpdateBy { get; set; }
+        public DateTime? UpdateAt { get; set; }
 
         [ForeignKey(nameof(RolId))]
         [InverseProperty("User")]
