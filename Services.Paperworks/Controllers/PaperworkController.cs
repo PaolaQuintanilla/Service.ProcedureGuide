@@ -214,7 +214,7 @@ namespace Services.Paperworks.Controllers
             var result = new List<Paperworkreception>();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result = db.Paperworkreception.Where(f => f.IsActive == 1).ToList();
+                result = db.Paperworkreception.ToList();
             }
             return result;
         }
