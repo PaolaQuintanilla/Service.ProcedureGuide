@@ -105,7 +105,7 @@ namespace Services.Paperworks.Controllers
             var result = new List<Faculty>();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result = db.Faculty.Where(f => f.IsActive == 1).ToList();
+                result = db.Faculty.ToList();
             }
 
             return result;
