@@ -30,6 +30,7 @@ namespace Services.Paperworks.Controllers
             using (dbtramiteContext db = new dbtramiteContext())
             {
                 result = db.User.SingleOrDefault(u => u.Password == criteria.Password && u.Email == criteria.Email);
+                result.Rol = db.Rol.Single(r => r.Id == result.RolId);
             }
             return result;
         }
@@ -44,7 +45,7 @@ namespace Services.Paperworks.Controllers
                 result.LastName = criteria.LastName;
                 result.Password = criteria.Password;
                 result.Email = criteria.Email;
-                result.RolId = 1;
+                result.RolId = 2;
                 result.CreatedBy = 1;
                 result.IsActive = 1;
                 result.CreatedAt = DateTime.Now;
