@@ -5,10 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Services.Paperworks.Models
 {
-    [Table("rol")]
-    public partial class Rol
+    [Table("role")]
+    public partial class Role
     {
-        public Rol()
+        public Role()
         {
             User = new HashSet<User>();
         }
@@ -20,7 +20,7 @@ namespace Services.Paperworks.Models
         [StringLength(45)]
         public string Name { get; set; }
 
-        [InverseProperty("Rol")]
+        [InverseProperty("Role")]
         public virtual ICollection<User> User { get; set; }
     }
 }

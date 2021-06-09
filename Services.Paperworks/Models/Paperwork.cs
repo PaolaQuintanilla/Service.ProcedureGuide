@@ -10,7 +10,7 @@ namespace Services.Paperworks.Models
     {
         public Paperwork()
         {
-            Requirement = new HashSet<Requirement>();
+            PaperworkRequirement = new HashSet<PaperworkRequirement>();
         }
 
         [Key]
@@ -36,6 +36,6 @@ namespace Services.Paperworks.Models
         [InverseProperty("Paperwork")]
         public virtual Faculty Faculty { get; set; }
         [InverseProperty("PaperWork")]
-        public virtual ICollection<Requirement> Requirement { get; set; }
+        public virtual ICollection<PaperworkRequirement> PaperworkRequirement { get; set; }
     }
 }

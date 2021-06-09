@@ -44,7 +44,7 @@ namespace Services.Paperworks.Controllers
                 result.LastName = criteria.LastName;
                 result.Password = criteria.Password;
                 result.Email = criteria.Email;
-                result.RolId = 1;
+                result.RoleId = 1;
                 result.CreatedBy = 1;
                 result.IsActive = 1;
                 result.CreatedAt = DateTime.Now;

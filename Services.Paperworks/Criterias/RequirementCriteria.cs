@@ -10,7 +10,6 @@ namespace Services.Paperworks.Criterias
         public string Name { get; set; }
         public string Description { get; set; }
         public int? PaperWorkReceptionId { get; set; }
-        public int PaperWorkId { get; set; }
         public int? PaperworkLink { get; set; }
     }
 }

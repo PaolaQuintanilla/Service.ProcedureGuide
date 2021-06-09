@@ -17,9 +17,10 @@ namespace Services.Paperworks.Models
 
         public virtual DbSet<Faculty> Faculty { get; set; }
         public virtual DbSet<Paperwork> Paperwork { get; set; }
+        public virtual DbSet<PaperworkRequirement> PaperworkRequirement { get; set; }
         public virtual DbSet<Paperworkreception> Paperworkreception { get; set; }
         public virtual DbSet<Requirement> Requirement { get; set; }
-        public virtual DbSet<Rol> Rol { get; set; }
+        public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -56,6 +57,30 @@ namespace Services.Paperworks.Models
                     .HasConstraintName("fk_PaperWork_Faculty1");
             });
 
+            modelBuilder.Entity<PaperworkRequirement>(entity =>
+            {
+                entity.HasKey(e => new { e.PaperWorkId, e.RequirementId })
+                    .HasName("PRIMARY");
+
+                entity.HasIndex(e => e.PaperWorkId)
+                    .HasName("fk_Paperwork_Requirement_PaperWork1_idx");
+
+                entity.HasIndex(e => e.RequirementId)
+                    .HasName("fk_Paperwork_Requirement_Requirement1_idx");
+
+                entity.HasOne(d => d.PaperWork)
+                    .WithMany(p => p.PaperworkRequirement)
+                    .HasForeignKey(d => d.PaperWorkId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_Paperwork_Requirement_PaperWork1");
+
+                entity.HasOne(d => d.Requirement)
+                    .WithMany(p => p.PaperworkRequirement)
+                    .HasForeignKey(d => d.RequirementId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_Paperwork_Requirement_Requirement1");
+            });
+
             modelBuilder.Entity<Paperworkreception>(entity =>
             {
                 entity.Property(e => e.Description).IsUnicode(false);
@@ -65,9 +90,6 @@ namespace Services.Paperworks.Models
 
             modelBuilder.Entity<Requirement>(entity =>
             {
-                entity.HasIndex(e => e.PaperWorkId)
-                    .HasName("fk_Requirement_PaperWork1_idx");
-
                 entity.HasIndex(e => e.PaperWorkReceptionId)
                     .HasName("fk_Requirement_PaperWorkReception1_idx");
 
@@ -75,27 +97,21 @@ namespace Services.Paperworks.Models
 
                 entity.Property(e => e.Name).IsUnicode(false);
 
-                entity.HasOne(d => d.PaperWork)
-                    .WithMany(p => p.Requirement)
-                    .HasForeignKey(d => d.PaperWorkId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Requirement_PaperWork1");
-
                 entity.HasOne(d => d.PaperWorkReception)
                     .WithMany(p => p.Requirement)
                     .HasForeignKey(d => d.PaperWorkReceptionId)
                     .HasConstraintName("fk_Requirement_PaperWorkReception1");
             });
 
-            modelBuilder.Entity<Rol>(entity =>
+            modelBuilder.Entity<Role>(entity =>
             {
                 entity.Property(e => e.Name).IsUnicode(false);
             });
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasIndex(e => e.RolId)
-                    .HasName("fk_User_Rol1_idx");
+                entity.HasIndex(e => e.RoleId)
+                    .HasName("fk_User_Role1_idx");
 
                 entity.Property(e => e.Email).IsUnicode(false);
 
@@ -105,11 +121,11 @@ namespace Services.Paperworks.Models
 
                 entity.Property(e => e.Password).IsUnicode(false);
 
-                entity.HasOne(d => d.Rol)
+                entity.HasOne(d => d.Role)
                     .WithMany(p => p.User)
-                    .HasForeignKey(d => d.RolId)
+                    .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_User_Rol1");
+                    .HasConstraintName("fk_User_Role1");
             });
 
             OnModelCreatingPartial(modelBuilder);
