@@ -30,6 +30,7 @@ namespace Services.Paperworks.Controllers
             using (dbtramiteContext db = new dbtramiteContext())
             {
                 result = db.User.SingleOrDefault(u => u.Password == criteria.Password && u.Email == criteria.Email);
+                result.Role = db.Role.Single(r => r.Id == result.RoleId);
             }
             return result;
         }
