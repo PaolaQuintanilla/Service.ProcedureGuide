@@ -114,6 +114,29 @@ namespace Services.Paperworks.Controllers
             }
             return pr;
         }
+
+        [HttpPost("ModifyPaperworkRequirement")]
+        public async Task<ActionResult<int>> ModifyPaperworkRequirement(ModifyPaperworkRequirementCriteria rq)
+        {
+            Paperworkreception result = new Paperworkreception();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                foreach (var item in rq.Old)
+                {
+                    var deleteItem = new PaperworkRequirement() { PaperWorkId = rq.PaperworkId, RequirementId = item };
+                    db.PaperworkRequirement.Remove(deleteItem);
+                }
+
+                foreach (var item in rq.Current)
+                {
+                    var addItem = new PaperworkRequirement() { PaperWorkId = rq.PaperworkId, RequirementId = item };
+                    db.PaperworkRequirement.Add(addItem);
+                }
+
+                db.SaveChanges();
+            }
+            return rq.PaperworkId;
+        }
         #endregion
 
         #region Faculty
@@ -202,7 +225,7 @@ namespace Services.Paperworks.Controllers
                           select r).ToList();
                 foreach (var item in result)
                 {
-                    item.PaperWorkReception = db.Paperworkreception.Where(p => p.Id == item.PaperWorkReceptionId).Single();
+                    item.PaperWorkReception = db.Paperworkreception.Where(p => p.Id == item.PaperWorkReceptionId).SingleOrDefault();
                 }
             }
             return result;
