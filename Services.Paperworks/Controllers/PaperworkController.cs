@@ -208,12 +208,16 @@ namespace Services.Paperworks.Controllers
             using (dbtramiteContext db = new dbtramiteContext())
             {
                 result = db.Requirement.ToList();
+                foreach (var item in result)
+                {
+                    item.PaperWorkReception = db.Paperworkreception.Where(p => p.Id == item.PaperWorkReceptionId).SingleOrDefault();
+                }
             }
             return result;
         }
 
         [HttpGet("GetRequirementsBy/{id}")]
-        public IEnumerable<Requirement> GetRequisitosBy(int id)
+        public IEnumerable<Requirement> GetRequirementsBy(int id)
         {
             var result = new List<Requirement>();
             using (dbtramiteContext db = new dbtramiteContext())
@@ -227,6 +231,18 @@ namespace Services.Paperworks.Controllers
                 {
                     item.PaperWorkReception = db.Paperworkreception.Where(p => p.Id == item.PaperWorkReceptionId).SingleOrDefault();
                 }
+            }
+            return result;
+        }
+
+        [HttpGet("GetRequirementBy/{id}")]
+        public Requirement GetRequirementBy(int id)
+        {
+            var result = new Requirement();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Requirement.Single(r => r.Id == id);
+                result.PaperWorkReception = db.Paperworkreception.SingleOrDefault(p => p.Id == result.PaperWorkReceptionId);
             }
             return result;
         }
@@ -245,6 +261,24 @@ namespace Services.Paperworks.Controllers
                 result.IsActive = 1;
                 result.CreatedAt = DateTime.Now;
                 db.Add(result);
+                db.SaveChanges();
+            }
+            return result;
+        }
+
+        [HttpPost("ModifyRequirement")]
+        public async Task<ActionResult<Requirement>> ModifyRequirement(ModifyRequirementCriteria item)
+        {
+            Requirement result = new Requirement();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Requirement.FirstOrDefault(p => p.Id == item.Id);
+                result.Name = item.Name;
+                result.Description = item.Description;
+                result.PaperWorkReceptionId = item.PaperworkReceptionId;
+                result.UpdatedBy = 1;
+                result.UpdatedAt = DateTime.Now;
+                result.IsActive = Convert.ToInt16(item.IsActive);
                 db.SaveChanges();
             }
             return result;
