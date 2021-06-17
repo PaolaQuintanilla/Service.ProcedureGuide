@@ -90,10 +90,52 @@ namespace Services.Paperworks.Controllers
                 result.CreatedBy = 1;
                 result.IsActive = 1;
                 result.CreatedAt = DateTime.Now;
-                db.Add(result);
+                db.Paperwork.Add(result);
                 db.SaveChanges();
             }
             return result;
+        }
+        #endregion
+
+        #region PaperworkRequirement
+        [HttpPost("CreatePaperworkRequirement")]
+        public async Task<ActionResult<PaperworkRequirement>> CreatePaperworkRequirement(ICollection<PaperworkRequirementCriteria> collection)
+        {
+            PaperworkRequirement pr = new PaperworkRequirement();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                foreach (var item in collection)
+                {
+                    pr.PaperWorkId = item.PaperworkId;
+                    pr.RequirementId = item.RequirementId;
+                    db.PaperworkRequirement.Add(pr);
+                    db.SaveChanges();
+                }
+            }
+            return pr;
+        }
+
+        [HttpPost("ModifyPaperworkRequirement")]
+        public async Task<ActionResult<int>> ModifyPaperworkRequirement(ModifyPaperworkRequirementCriteria rq)
+        {
+            Paperworkreception result = new Paperworkreception();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                foreach (var item in rq.Old)
+                {
+                    var deleteItem = new PaperworkRequirement() { PaperWorkId = rq.PaperworkId, RequirementId = item };
+                    db.PaperworkRequirement.Remove(deleteItem);
+                }
+
+                foreach (var item in rq.Current)
+                {
+                    var addItem = new PaperworkRequirement() { PaperWorkId = rq.PaperworkId, RequirementId = item };
+                    db.PaperworkRequirement.Add(addItem);
+                }
+
+                db.SaveChanges();
+            }
+            return rq.PaperworkId;
         }
         #endregion
 
@@ -165,23 +207,42 @@ namespace Services.Paperworks.Controllers
             var result = new List<Requirement>();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result = db.Requirement.Where(f => f.IsActive == 1).ToList();
+                result = db.Requirement.ToList();
+                foreach (var item in result)
+                {
+                    item.PaperWorkReception = db.Paperworkreception.Where(p => p.Id == item.PaperWorkReceptionId).SingleOrDefault();
+                }
             }
             return result;
         }
 
         [HttpGet("GetRequirementsBy/{id}")]
-        public IEnumerable<Requirement> GetRequisitosBy(int id)
+        public IEnumerable<Requirement> GetRequirementsBy(int id)
         {
             var result = new List<Requirement>();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result = db.Requirement.Where(r => r.PaperWorkId == id)
-                        .Include(re => re.PaperWorkReception).ToList();
+                result = (from pr in db.PaperworkRequirement
+                          join r in db.Requirement
+                          on pr.RequirementId equals r.Id
+                          where pr.PaperWorkId == id
+                          select r).ToList();
                 foreach (var item in result)
                 {
-                    item.PaperWorkReception = db.Paperworkreception.Where(p => p.Id == item.PaperWorkReceptionId).Single();
+                    item.PaperWorkReception = db.Paperworkreception.Where(p => p.Id == item.PaperWorkReceptionId).SingleOrDefault();
                 }
+            }
+            return result;
+        }
+
+        [HttpGet("GetRequirementBy/{id}")]
+        public Requirement GetRequirementBy(int id)
+        {
+            var result = new Requirement();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Requirement.Single(r => r.Id == id);
+                result.PaperWorkReception = db.Paperworkreception.SingleOrDefault(p => p.Id == result.PaperWorkReceptionId);
             }
             return result;
         }
@@ -194,13 +255,30 @@ namespace Services.Paperworks.Controllers
             {
                 result.Name = item.Name;
                 result.Description = item.Description;
-                result.PaperWorkId = item.PaperWorkId;
                 result.PaperworkLink = item.PaperworkLink;
                 result.PaperWorkReceptionId = item.PaperWorkReceptionId;
                 result.CreatedBy = 1;
                 result.IsActive = 1;
                 result.CreatedAt = DateTime.Now;
                 db.Add(result);
+                db.SaveChanges();
+            }
+            return result;
+        }
+
+        [HttpPost("ModifyRequirement")]
+        public async Task<ActionResult<Requirement>> ModifyRequirement(ModifyRequirementCriteria item)
+        {
+            Requirement result = new Requirement();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                result = db.Requirement.FirstOrDefault(p => p.Id == item.Id);
+                result.Name = item.Name;
+                result.Description = item.Description;
+                result.PaperWorkReceptionId = item.PaperworkReceptionId;
+                result.UpdatedBy = 1;
+                result.UpdatedAt = DateTime.Now;
+                result.IsActive = Convert.ToInt16(item.IsActive);
                 db.SaveChanges();
             }
             return result;

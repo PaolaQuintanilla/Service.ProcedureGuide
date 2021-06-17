@@ -14,8 +14,6 @@ namespace Services.Paperworks.Models
         [Required]
         [StringLength(200)]
         public string Name { get; set; }
-        [Column("Rol_Id", TypeName = "int(11)")]
-        public int RolId { get; set; }
         [Required]
         [StringLength(100)]
         public string Password { get; set; }
@@ -33,9 +31,11 @@ namespace Services.Paperworks.Models
         [Column(TypeName = "int(11)")]
         public int? UpdateBy { get; set; }
         public DateTime? UpdateAt { get; set; }
+        [Column("Role_Id", TypeName = "int(11)")]
+        public int RoleId { get; set; }
 
-        [ForeignKey(nameof(RolId))]
+        [ForeignKey(nameof(RoleId))]
         [InverseProperty("User")]
-        public virtual Rol Rol { get; set; }
+        public virtual Role Role { get; set; }
     }
 }
