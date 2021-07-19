@@ -31,7 +31,7 @@ namespace Services.Paperworks.Controllers
             var result = new List<Paperwork>();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result = db.Paperwork.Where(f => f.IsActive == 1).ToList();
+                result = db.Paperwork.OrderBy(f => f.Name).ToList();
             }
 
             return result;
@@ -55,6 +55,7 @@ namespace Services.Paperworks.Controllers
             using (dbtramiteContext db = new dbtramiteContext())
             {
                 result = db.Paperwork.Single(p => p.Id == id);
+                result.Faculty = db.Faculty.Single(f => f.Id == result.FacultyId);
             }
             return result;
         }
@@ -147,7 +148,7 @@ namespace Services.Paperworks.Controllers
             var result = new List<Faculty>();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result = db.Faculty.ToList();
+                result = db.Faculty.OrderBy(f => f.Name).ToList();
             }
 
             return result;
@@ -207,7 +208,7 @@ namespace Services.Paperworks.Controllers
             var result = new List<Requirement>();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result = db.Requirement.ToList();
+                result = db.Requirement.OrderBy(f => f.Name).ToList();
                 foreach (var item in result)
                 {
                     item.PaperWorkReception = db.Paperworkreception.Where(p => p.Id == item.PaperWorkReceptionId).SingleOrDefault();
@@ -230,6 +231,29 @@ namespace Services.Paperworks.Controllers
                 foreach (var item in result)
                 {
                     item.PaperWorkReception = db.Paperworkreception.Where(p => p.Id == item.PaperWorkReceptionId).SingleOrDefault();
+                }
+            }
+            return result;
+        }
+
+        [HttpGet("GetRequirementsToDoBy/{id}")]
+        public IEnumerable<RequirementToDo> GetRequirementsToDoBy(int id)
+        {
+            var result = new List<RequirementToDo>();
+            using (dbtramiteContext db = new dbtramiteContext())
+            {
+                var requirements = (from pr in db.PaperworkRequirement
+                                    join r in db.Requirement
+                                    on pr.RequirementId equals r.Id
+                                    where pr.PaperWorkId == id
+                                    select r).ToList();
+                foreach (var requirement in requirements)
+                {
+                    if (requirement.IsActive == 1)
+                    {
+                        var reqToDo = new RequirementToDo() { Active = true, Name = requirement.Name };
+                        result.Add(reqToDo);
+                    }
                 }
             }
             return result;
@@ -292,7 +316,7 @@ namespace Services.Paperworks.Controllers
             var result = new List<Paperworkreception>();
             using (dbtramiteContext db = new dbtramiteContext())
             {
-                result = db.Paperworkreception.ToList();
+                result = db.Paperworkreception.OrderBy(f => f.Name).ToList();
             }
             return result;
         }
